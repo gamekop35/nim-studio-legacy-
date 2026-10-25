@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:">
+  <title>NIM Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section id="setup" class="setup hidden">
+    <div class="setup-card">
+      <h1>Connect to NVIDIA NIM</h1>
+      <p>NIM Studio uses your own API key. It is encrypted on this PC and sent only to NVIDIA.</p>
+      <input id="keyInput" type="password" placeholder="nvapi-..." autocomplete="off" spellcheck="false">
+      <p id="setupError" class="error hidden"></p>
+      <button id="keySave" class="primary">Save key and start</button>
+      <p class="hint">Get a free key at <a href="https://build.nvidia.com" target="_blank" rel="noreferrer">build.nvidia.com</a>.</p>
+    </div>
+  </section>
+
+  <div id="app" class="app hidden">
+    <aside>
+      <button id="newChat" class="primary wide">New chat</button>
+      <div id="chatList" class="chat-list"></div>
+      <div id="updateBanner" class="update hidden">
+        <span id="updateText"></span>
+        <button id="updateRestart" class="primary hidden">Restart to update</button>
+      </div>
+      <div class="side-foot">
+        <button id="openSettings" class="ghost">Settings</button>
+        <button id="openLogs" class="ghost">Logs</button>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <span class="muted">Model</span>
+        <div class="picker">
+          <button id="modelBtn" aria-haspopup="listbox" aria-expanded="false"><span id="modelLabel"></span><span aria-hidden="true">&#9662;</span></button>
+          <div id="modelMenu" class="menu hidden">
+            <input id="modelSearch" placeholder="Search models" spellcheck="false" autocomplete="off">
+            <div id="modelScroll" class="menu-scroll" role="listbox"></div>
+            <label class="menu-foot"><input type="checkbox" id="showAll"> Show non-chat models</label>
+          </div>
+        </div>
+        <span id="status" class="muted"></span>
+      </header>
+
+      <div id="messages" class="messages"></div>
+
+      <div class="composer">
+        <div id="chips" class="chips"></div>
+        <div class="row">
+          <button id="attach" class="ghost" title="Attach code or text files">Attach</button>
+          <textarea id="input" rows="1" placeholder="Ask a question or paste code. Enter to send, Shift+Enter for a new line."></textarea>
+          <button id="send" class="primary">Send</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="settings">
+    <h2>Settings</h2>
+    <label for="sysPrompt">System prompt</label>
+    <textarea id="sysPrompt" rows="5"></textarea>
+    <div class="grid2">
+      <div>
+        <label for="temp">Temperature <span id="tempVal"></span></label>
+        <input id="temp" type="range" min="0" max="1.5" step="0.05">
+      </div>
+      <div>
+        <label for="maxTok">Max response tokens</label>
+        <input id="maxTok" type="number" min="64" max="32768" step="64">
+      </div>
+    </div>
+    <div class="version-row">
+      <span class="muted">Version <span id="version"></span></span>
+      <button id="checkUpdate" class="ghost">Check for updates</button>
+      <span id="updateMsg" class="muted"></span>
+    </div>
+    <div class="dialog-actions">
+      <button id="changeKey" class="ghost">Replace API key</button>
+      <span class="spacer"></span>
+      <button id="settingsCancel" class="ghost">Cancel</button>
+      <button id="settingsSave" class="primary">Save</button>
+    </div>
+  </dialog>
+
+  <dialog id="logs">
+    <h2>Logs</h2>
+    <p class="muted">Requests, replies and errors. Your API key is never written here.</p>
+    <div class="log-tools">
+      <button id="runTest" class="primary">Run connection test</button>
+      <button id="copyLogs" class="ghost">Copy all</button>
+      <button id="clearLogs" class="ghost">Clear</button>
+      <button id="openLogFile" class="ghost">Show log file</button>
+      <span class="spacer"></span>
+      <button id="closeLogs" class="ghost">Close</button>
+    </div>
+    <div id="logView" class="log-view" tabindex="0"></div>
+  </dialog>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
